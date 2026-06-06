@@ -30,5 +30,5 @@ document.getElementById('contact-form').addEventListener('submit', (e) => {
     ['Name: ' + fd.get('name'), 'Email: ' + fd.get('email'),
      'Type: ' + fd.get('type'), '', 'Brief: ' + fd.get('brief')].join('\n')
   );
-  window.location.href = 'mailto:hello@kreshnith.com?subject=' + subject + '&body=' + body;
+  window.location.href = 'mailto:hello@adwait.com?subject=' + subject + '&body=' + body;
 });

@@ -182,9 +182,9 @@ function Navigation() {
   return (
     <nav className={`nav ${scrolled ? "nav--scrolled" : ""}`} id="nav">
       <div className="nav__wrap">
-        <a className="nav__logo" href="#" aria-label="Kreshnith Creative">
-          <span className="nav__mark">K</span>
-          <span className="nav__name">Kreshnith</span>
+        <a className="nav__logo" href="#" aria-label="Adwait Creative">
+          <span className="nav__mark">A</span>
+          <span className="nav__name">Adwait</span>
         </a>
         <div className={`nav__links ${mobileOpen ? "nav__links--open" : ""}`}>
           <a href="#work" onClick={() => setMobileOpen(false)}>Work</a>
@@ -490,8 +490,8 @@ function AboutSection() {
           <div className="about__card">
             <div className="about__card-gradient" />
             <div className="about__card-content">
-              <div className="about__initials">KC</div>
-              <h3>Kreshnith</h3>
+              <div className="about__initials">AC</div>
+              <h3>Adwait</h3>
               <span>Creative Designer & Editor</span>
               <div className="about__card-stats">
                 <div><strong>50+</strong><span>Projects</span></div>
@@ -608,9 +608,9 @@ function Footer() {
     <footer className="footer">
       <div className="footer__wrap">
         <div className="footer__brand">
-          <a className="nav__logo" href="#" aria-label="Kreshnith Creative">
-            <span className="nav__mark">K</span>
-            <span className="nav__name">Kreshnith</span>
+          <a className="nav__logo" href="#" aria-label="Adwait Creative">
+            <span className="nav__mark">A</span>
+            <span className="nav__name">Adwait</span>
           </a>
           <p>Designs that command attention. Built for brands that refuse to blend in.</p>
         </div>
@@ -637,7 +637,7 @@ function Footer() {
           </div>
         </div>
         <div className="footer__bottom">
-          <span>© {new Date().getFullYear()} Kreshnith Creative. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Adwait Creative. All rights reserved.</span>
           <span>Crafted with precision ✦</span>
         </div>
       </div>
