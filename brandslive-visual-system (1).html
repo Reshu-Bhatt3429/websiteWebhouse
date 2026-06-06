@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brandslive — Visual System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ---- PRIMARY ---- */
+    --indigo:#3A2DE8;        /* primary brand */
+    --indigo-deep:#1E1499;   /* dark variant */
+    --indigo-soft:#ECEAFF;   /* tint */
+    /* ---- SIGNATURE ENERGY ---- */
+    --saffron:#FF6A1A;       /* CTA / energy */
+    --saffron-soft:#FFE7D6;
+    /* ---- FESTIVAL ---- */
+    --magenta:#FF2E7E;
+    --magenta-soft:#FFE0EC;
+    /* ---- GROWTH ---- */
+    --green:#12B76A;
+    --green-soft:#D6F5E6;
+    /* ---- HIGHLIGHT ---- */
+    --gold:#FFB020;
+    --gold-soft:#FFF1D6;
+    /* ---- NEUTRALS ---- */
+    --ink:#0D1020;
+    --slate:#4A5168;
+    --mute:#8A91A8;
+    --line:#E7E9F2;
+    --cloud:#F4F5FB;
+    --paper:#FFFFFF;
+    /* ---- STATUS (in-app) ---- */
+    --st-pub:#12B76A;        /* published */
+    --st-sched:#2E7BFF;      /* scheduled */
+    --st-draft:#FFB020;      /* draft */
+    --st-sug:#FF6A1A;        /* suggested */
+
+    --grad-hero:linear-gradient(120deg,#3A2DE8 0%,#7B2EE8 45%,#FF2E7E 100%);
+    --grad-energy:linear-gradient(120deg,#FF6A1A 0%,#FF2E7E 100%);
+    --grad-growth:linear-gradient(120deg,#12B76A 0%,#3A2DE8 130%);
+    --r:18px;
+    --shadow:0 18px 50px -22px rgba(13,16,32,.35);
+    --shadow-sm:0 8px 24px -14px rgba(13,16,32,.3);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Poppins',sans-serif;color:var(--ink);background:var(--cloud);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+  section{padding:74px 0;border-bottom:1px solid var(--line)}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo);background:var(--indigo-soft);padding:7px 14px;border-radius:100px}
+  h2.sec{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.02em;margin:18px 0 10px;line-height:1.05}
+  .lead{font-size:17px;color:var(--slate);max-width:680px}
+  .grid{display:grid;gap:20px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+
+  /* ===== TOP NAV ===== */
+  nav{position:sticky;top:0;z-index:50;background:rgba(244,245,251,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:18px}
+  .logo .mark{width:30px;height:30px;border-radius:9px;background:var(--grad-hero);display:grid;place-items:center;color:#fff;font-weight:900;font-size:15px;box-shadow:var(--shadow-sm)}
+  .navlinks{display:flex;gap:4px}
+  .navlinks a{font-size:13px;font-weight:600;color:var(--slate);text-decoration:none;padding:8px 12px;border-radius:9px;transition:.18s}
+  .navlinks a:hover{background:var(--indigo-soft);color:var(--indigo)}
+  @media(max-width:860px){.navlinks{display:none}}
+
+  /* ===== HERO ===== */
+  .hero{background:var(--grad-hero);color:#fff;border:none;padding:0;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.18),transparent 45%);pointer-events:none}
+  .hero .wrap{padding:96px 26px 90px;position:relative;z-index:2}
+  .hero .eyebrow{background:rgba(255,255,255,.16);color:#fff}
+  .hero h1{font-size:clamp(40px,7vw,82px);font-weight:900;letter-spacing:-.03em;line-height:.98;margin:22px 0 18px}
+  .hero p{font-size:19px;max-width:620px;color:rgba(255,255,255,.92)}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:26px;margin-top:38px;font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
+  .hero .meta b{display:block;font-size:22px;font-weight:800;color:#fff;letter-spacing:-.01em}
+  .floatchips{position:absolute;right:-40px;top:60px;display:flex;flex-direction:column;gap:14px;z-index:1;opacity:.95}
+  .fc{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);padding:12px 18px;border-radius:14px;font-weight:700;font-size:14px;color:#fff;white-space:nowrap}
+  @media(max-width:980px){.floatchips{display:none}}
+
+  /* ===== PRINCIPLES ===== */
+  .princ{grid-template-columns:repeat(5,1fr)}
+  @media(max-width:900px){.princ{grid-template-columns:repeat(2,1fr)}}
+  .pcard{padding:22px}
+  .pcard .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;margin-bottom:14px;color:#fff}
+  .pcard h4{font-size:16px;font-weight:700;margin-bottom:5px}
+  .pcard p{font-size:13px;color:var(--slate)}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+  @media(max-width:760px){.twocol{grid-template-columns:1fr}}
+  .tcard{padding:24px}
+  .tcard h4{font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
+  .taglist{list-style:none}
+  .taglist li{display:flex;gap:10px;align-items:center;padding:8px 0;font-size:15px;border-bottom:1px dashed var(--line)}
+  .taglist li:last-child{border:none}
+  .yes{color:var(--green)}.no{color:var(--magenta)}
+  .badge{font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px}
+
+  /* ===== LOGO ===== */
+  .logogrid{grid-template-columns:1.3fr 1fr}
+  @media(max-width:820px){.logogrid{grid-template-columns:1fr}}
+  .logobox{padding:34px;display:grid;place-items:center;min-height:200px;border-radius:var(--r)}
+  .lock{display:flex;align-items:center;gap:14px;font-weight:900;font-size:30px;letter-spacing:-.02em}
+  .lock .mark{width:52px;height:52px;border-radius:14px;background:var(--grad-hero);display:grid;place-items:center;color:#fff;font-size:26px;font-weight:900}
+  .clearspace{position:relative;padding:40px}
+  .clearspace .ring{position:absolute;inset:14px;border:2px dashed var(--indigo);border-radius:14px;opacity:.5}
+  .ruleslist{padding:26px}
+  .ruleslist li{list-style:none;display:flex;gap:10px;padding:9px 0;font-size:14px;border-bottom:1px solid var(--line);color:var(--slate)}
+  .ruleslist li:last-child{border:none}
+  .ruleslist .k{color:var(--ink);font-weight:700;min-width:120px}
+
+  /* ===== COLOR ===== */
+  .swrow{grid-template-columns:repeat(5,1fr)}
+  @media(max-width:900px){.swrow{grid-template-columns:repeat(2,1fr)}}
+  .sw{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-sm)}
+  .sw .chip{height:96px;display:flex;align-items:flex-end;padding:12px;color:#fff;font-weight:700;font-size:12px}
+  .sw .info{padding:12px 14px}
+  .sw .info b{font-size:14px;display:block}
+  .sw .info span{font-size:12px;color:var(--mute);font-family:monospace;letter-spacing:.02em}
+  .sw .role{font-size:11px;color:var(--slate);margin-top:5px;display:block}
+  .ratio{display:flex;height:54px;border-radius:12px;overflow:hidden;margin-top:26px;box-shadow:var(--shadow-sm);font-size:12px;font-weight:700;color:#fff}
+  .ratio div{display:grid;place-items:center}
+  .statusrow{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+  .stchip{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);padding:9px 15px;border-radius:100px;font-size:13px;font-weight:600;box-shadow:var(--shadow-sm)}
+  .dot{width:13px;height:13px;border-radius:50%}
+  .gradrow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+  @media(max-width:760px){.gradrow{grid-template-columns:1fr}}
+  .gbox{height:92px;border-radius:14px;color:#fff;display:flex;align-items:flex-end;padding:14px;font-weight:700;font-size:13px;box-shadow:var(--shadow-sm)}
+
+  /* ===== TYPE ===== */
+  .typescale{padding:30px}
+  .trow{display:flex;align-items:baseline;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .trow:last-child{border:none}
+  .trow .tag{font-size:11px;font-weight:700;color:var(--mute);min-width:120px;font-family:monospace}
+  .trow .demo{flex:1;letter-spacing:-.01em}
+  .w900{font-weight:900}.w800{font-weight:800}.w700{font-weight:700}.w600{font-weight:600}.w500{font-weight:500}.w400{font-weight:400}
+  .deva{font-family:'Noto Sans Devanagari',sans-serif}
+
+  /* ===== ICONS / GRAPHIC ===== */
+  .powerrow{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:760px){.powerrow{grid-template-columns:repeat(2,1fr)}}
+  .pwr{padding:24px;text-align:center}
+  .pwr .ic{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;font-size:30px;margin:0 auto 14px;color:#fff;box-shadow:var(--shadow-sm)}
+  .pwr h4{font-size:15px;font-weight:700}
+  .pwr p{font-size:12px;color:var(--mute);margin-top:3px}
+
+  /* ===== LAYOUT / SPACING ===== */
+  .spacescale{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-top:24px}
+  .sp{text-align:center}
+  .sp .bar{background:var(--indigo);border-radius:6px;width:38px;margin:0 auto}
+  .sp span{font-size:11px;color:var(--mute);display:block;margin-top:7px;font-family:monospace}
+
+  /* ===== BANNER LIBRARY ===== */
+  .fmtgroup{margin-top:34px}
+  .fmtgroup h3{font-size:20px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+  .fmtgroup .gtag{font-size:11px;font-weight:800;color:#fff;padding:4px 10px;border-radius:7px;letter-spacing:.04em}
+  .fmtgroup .gsub{font-size:14px;color:var(--slate);margin-bottom:18px}
+  .fmtgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+  .fmt{padding:18px;display:flex;flex-direction:column;gap:12px}
+  .fmt .mock{border-radius:11px;background:var(--cloud);border:1px solid var(--line);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:11px}
+  .fmt .mock .safe{position:absolute;inset:9px;border:1.5px dashed rgba(58,45,232,.4);border-radius:8px;pointer-events:none}
+  .fmt .mock .ml{font-size:9px;font-weight:800;color:var(--indigo);position:relative;z-index:2}
+  .fmt .mock .mh{font-size:13px;font-weight:900;line-height:1.05;position:relative;z-index:2;letter-spacing:-.02em}
+  .fmt .mock .mc{align-self:flex-start;background:var(--saffron);color:#fff;font-size:8px;font-weight:800;padding:4px 9px;border-radius:6px;position:relative;z-index:2}
+  .fmt .name{font-size:14px;font-weight:700}
+  .fmt .dim{font-size:12px;font-family:monospace;color:var(--indigo);font-weight:600}
+  .fmt .note{font-size:12px;color:var(--slate);line-height:1.45}
+  .fmt .note b{color:var(--ink)}
+
+  /* anatomy */
+  .anat{display:grid;grid-template-columns:300px 1fr;gap:30px;align-items:center;margin-top:26px}
+  @media(max-width:760px){.anat{grid-template-columns:1fr}}
+  .anatmock{aspect-ratio:4/5;border-radius:16px;background:var(--grad-hero);color:#fff;padding:20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:var(--shadow);overflow:hidden}
+  .anatmock::after{content:"";position:absolute;right:-30px;bottom:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12)}
+  .anatmock .a-logo{font-weight:800;font-size:14px;display:flex;align-items:center;gap:7px}
+  .anatmock .a-logo .m{width:22px;height:22px;border-radius:7px;background:#fff;color:var(--indigo);display:grid;place-items:center;font-weight:900;font-size:12px}
+  .anatmock .a-h{font-size:26px;font-weight:900;line-height:1;letter-spacing:-.02em}
+  .anatmock .a-s{font-size:12px;opacity:.9;margin-top:6px}
+  .anatmock .a-cta{align-self:flex-start;background:var(--saffron);padding:8px 16px;border-radius:9px;font-weight:800;font-size:12px;margin-top:10px}
+  .anatmock .a-bar{position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--grad-energy)}
+  .anatkey{list-style:none}
+  .anatkey li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .anatkey li:last-child{border:none}
+  .anatkey .num{width:26px;height:26px;border-radius:8px;background:var(--indigo);color:#fff;font-weight:800;font-size:12px;display:grid;place-items:center;flex-shrink:0}
+  .anatkey b{color:var(--ink)}.anatkey span{color:var(--slate)}
+
+  /* do/dont */
+  .ddgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+  @media(max-width:760px){.ddgrid{grid-template-columns:1fr}}
+  .ddcard{padding:24px;border-radius:var(--r)}
+  .do{background:var(--green-soft);border:1px solid #b7ebd2}
+  .dont{background:var(--magenta-soft);border:1px solid #ffc2d8}
+  .ddcard h4{font-size:15px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .ddcard li{list-style:none;font-size:13.5px;padding:7px 0;display:flex;gap:9px;color:var(--slate)}
+  .ddcard li b{color:var(--ink)}
+
+  /* spec table */
+  table{width:100%;border-collapse:collapse;margin-top:24px;background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);font-size:13px}
+  th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line)}
+  th{background:var(--ink);color:#fff;font-weight:700;font-size:12px;letter-spacing:.03em}
+  td:nth-child(2){font-family:monospace;color:var(--indigo);font-weight:600}
+  tr:last-child td{border:none}
+  tr:hover td{background:var(--cloud)}
+
+  footer{padding:46px 0;text-align:center;color:var(--mute);font-size:13px}
+  footer b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <div class="logo"><span class="mark">b</span> Brandslive</div>
+  <div class="navlinks">
+    <a href="#essence">Essence</a>
+    <a href="#logo">Logo</a>
+    <a href="#color">Color</a>
+    <a href="#type">Type</a>
+    <a href="#icons">Icons</a>
+    <a href="#layout">Layout</a>
+    <a href="#formats">Formats</a>
+    <a href="#rules">Rules</a>
+  </div>
+</div></nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="floatchips">
+    <div class="fc">📱 Posts</div>
+    <div class="fc">🖥 Website banners</div>
+    <div class="fc">📣 Social covers</div>
+    <div class="fc">📲 In-app banners</div>
+  </div>
+  <div class="wrap">
+    <span class="eyebrow">Brand Visualisation System · v1.0</span>
+    <h1>One system.<br>Every banner.</h1>
+    <p>The complete visual structure for producing on-brand posts, website banners, social covers and in-app creatives for Brandslive — built so anyone can create, and everything looks like one brand.</p>
+    <div class="meta">
+      <div><b>5</b> Design principles</div>
+      <div><b>6</b> Colour families</div>
+      <div><b>20+</b> Banner formats</div>
+      <div><b>1</b> Layout anatomy</div>
+    </div>
+  </div>
+</header>
+
+<!-- ESSENCE -->
+<section id="essence"><div class="wrap">
+  <span class="eyebrow">01 · Brand Essence</span>
+  <h2 class="sec">Energetic. Indian. Business-first.</h2>
+  <p class="lead">Every visual ladders up to one promise — <b>“You Do Business. We Do Branding.”</b> The look should feel approachable to a busy MSME owner on a small screen, yet credible enough to represent their business.</p>
+
+  <div class="grid princ" style="margin-top:34px">
+    <div class="card pcard"><div class="ic" style="background:var(--indigo)">◎</div><h4>Accessible</h4><p>Clean, uncluttered, instantly readable.</p></div>
+    <div class="card pcard"><div class="ic" style="background:var(--st-sched)">★</div><h4>Professional</h4><p>Credible and trustworthy, never stiff.</p></div>
+    <div class="card pcard"><div class="ic" style="background:var(--saffron)">⚡</div><h4>Energetic</h4><p>Vibrant colour that signals growth.</p></div>
+    <div class="card pcard"><div class="ic" style="background:var(--magenta)">❖</div><h4>Indian</h4><p>Culturally resonant, festival-ready.</p></div>
+    <div class="card pcard"><div class="ic" style="background:var(--green)">▲</div><h4>Modern</h4><p>Contemporary, tech-forward, clean.</p></div>
+  </div>
+
+  <div class="twocol">
+    <div class="card tcard"><h4>We are</h4><ul class="taglist">
+      <li><span class="badge" style="background:var(--green-soft);color:var(--green)">✓</span> Approachable, not intimidating</li>
+      <li><span class="badge" style="background:var(--green-soft);color:var(--green)">✓</span> Colourful, not chaotic</li>
+      <li><span class="badge" style="background:var(--green-soft);color:var(--green)">✓</span> Professional, not corporate</li>
+      <li><span class="badge" style="background:var(--green-soft);color:var(--green)">✓</span> Business-focused, not over-designed</li>
+    </ul></div>
+    <div class="card tcard"><h4>So a banner always…</h4><ul class="taglist">
+      <li>🎯 leads with one clear benefit</li>
+      <li>👁 reads in under 3 seconds on a phone</li>
+      <li>🔘 carries exactly one call-to-action</li>
+      <li>🪔 adapts to festivals &amp; regional languages</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<!-- LOGO -->
+<section id="logo"><div class="wrap">
+  <span class="eyebrow">02 · Logo</span>
+  <h2 class="sec">The mark &amp; lockup</h2>
+  <p class="lead">Use the official lockup from the brand kit. The placeholder below shows construction rules — clear space, minimum size, and placement.</p>
+
+  <div class="grid logogrid" style="margin-top:30px">
+    <div class="card logobox" style="background:var(--cloud)">
+      <div class="clearspace"><div class="ring"></div>
+        <div class="lock"><span class="mark">b</span> Brandslive</div>
+      </div>
+    </div>
+    <div class="card ruleslist">
+      <li><span class="k">Clear space</span> Keep padding equal to the height of the “b” mark on all sides.</li>
+      <li><span class="k">Min size</span> 24px tall (digital) / 12mm (print). Below this, use the mark only.</li>
+      <li><span class="k">Versions</span> Full-colour, all-white (on colour/photo), all-ink (light backgrounds).</li>
+      <li><span class="k">Placement</span> Top-left or bottom-left of a banner — never centre unless it’s the sole hero element.</li>
+      <li><span class="k">Don’t</span> Recolour, stretch, add shadows, rotate, or place on a busy area without a scrim.</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- COLOR -->
+<section id="color"><div class="wrap">
+  <span class="eyebrow">03 · Colour</span>
+  <h2 class="sec">A vibrant, ownable palette</h2>
+  <p class="lead">Indigo leads (trust + modern tech). Saffron is the signature energy/CTA colour. Festival magenta, growth green and gold add warmth and occasion. <b>These are proposed values — lock them into your brand kit.</b></p>
+
+  <div class="grid swrow" style="margin-top:30px">
+    <div class="sw"><div class="chip" style="background:var(--indigo)">Primary</div><div class="info"><b>Indigo</b><span>#3A2DE8</span><span class="role">Primary brand, backgrounds, headlines</span></div></div>
+    <div class="sw"><div class="chip" style="background:var(--saffron)">Energy</div><div class="info"><b>Saffron</b><span>#FF6A1A</span><span class="role">CTAs, highlights, “Naya” badges</span></div></div>
+    <div class="sw"><div class="chip" style="background:var(--magenta)">Festival</div><div class="info"><b>Magenta</b><span>#FF2E7E</span><span class="role">Festival &amp; offer creatives</span></div></div>
+    <div class="sw"><div class="chip" style="background:var(--green)">Growth</div><div class="info"><b>Green</b><span>#12B76A</span><span class="role">Success, results, “published”</span></div></div>
+    <div class="sw"><div class="chip" style="background:var(--gold)" >Highlight</div><div class="info"><b>Gold</b><span>#FFB020</span><span class="role">Accents, stars, savings</span></div></div>
+  </div>
+
+  <div class="grid swrow" style="margin-top:18px">
+    <div class="sw"><div class="chip" style="background:var(--ink)">Ink</div><div class="info"><b>Ink</b><span>#0D1020</span><span class="role">Body text, dark surfaces</span></div></div>
+    <div class="sw"><div class="chip" style="background:var(--slate)">Slate</div><div class="info"><b>Slate</b><span>#4A5168</span><span class="role">Secondary text</span></div></div>
+    <div class="sw"><div class="chip" style="background:var(--mute)">Mute</div><div class="info"><b>Mute</b><span>#8A91A8</span><span class="role">Captions, meta</span></div></div>
+    <div class="sw"><div class="chip" style="background:var(--cloud);color:var(--slate)">Cloud</div><div class="info"><b>Cloud</b><span>#F4F5FB</span><span class="role">Section backgrounds</span></div></div>
+    <div class="sw"><div class="chip" style="background:var(--paper);color:var(--slate);border-bottom:1px solid var(--line)">Paper</div><div class="info"><b>Paper</b><span>#FFFFFF</span><span class="role">Cards, surfaces</span></div></div>
+  </div>
+
+  <h4 style="margin-top:36px;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--slate)">Usage ratio — keep it disciplined</h4>
+  <div class="ratio">
+    <div style="background:var(--cloud);color:var(--slate);flex:60">60% Neutral / Paper</div>
+    <div style="background:var(--indigo);flex:25">25% Indigo</div>
+    <div style="background:var(--saffron);flex:15">15% Energy</div>
+  </div>
+
+  <h4 style="margin-top:36px;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--slate)">Gradients (use sparingly, hero moments)</h4>
+  <div class="gradrow">
+    <div class="gbox" style="background:var(--grad-hero)">Hero · Indigo→Magenta</div>
+    <div class="gbox" style="background:var(--grad-energy)">Energy · Saffron→Magenta</div>
+    <div class="gbox" style="background:var(--grad-growth)">Growth · Green→Indigo</div>
+  </div>
+
+  <h4 style="margin-top:36px;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--slate)">In-app status colours (locked — match the app)</h4>
+  <div class="statusrow">
+    <div class="stchip"><span class="dot" style="background:var(--st-pub)"></span> Published</div>
+    <div class="stchip"><span class="dot" style="background:var(--st-sched)"></span> Scheduled</div>
+    <div class="stchip"><span class="dot" style="background:var(--st-draft)"></span> Draft</div>
+    <div class="stchip"><span class="dot" style="background:var(--st-sug)"></span> Suggested event</div>
+  </div>
+</div></section>
+
+<!-- TYPE -->
+<section id="type"><div class="wrap">
+  <span class="eyebrow">04 · Typography</span>
+  <h2 class="sec">Poppins, everywhere</h2>
+  <p class="lead">Poppins is the brand typeface (already used in-app). One family, weight contrast does the work. For Hindi &amp; regional copy, pair with <b>Noto Sans Devanagari</b> (and matching Noto scripts for Tamil/Telugu/etc.).</p>
+
+  <div class="card typescale">
+    <div class="trow"><span class="tag">Display · 900</span><span class="demo w900" style="font-size:46px">Poora business, ek app</span></div>
+    <div class="trow"><span class="tag">H1 · 800</span><span class="demo w800" style="font-size:34px">One click. Whole month set.</span></div>
+    <div class="trow"><span class="tag">H2 · 700</span><span class="demo w700" style="font-size:25px">Create with AI in seconds</span></div>
+    <div class="trow"><span class="tag">Subhead · 600</span><span class="demo w600" style="font-size:19px">Your free website on AI search</span></div>
+    <div class="trow"><span class="tag">Body · 400</span><span class="demo w400" style="font-size:16px">Describe what you need and the AI builds it — no design skills required.</span></div>
+    <div class="trow"><span class="tag">CTA / Label · 800</span><span class="demo w800" style="font-size:14px;letter-spacing:.02em;text-transform:uppercase">Update Now →</span></div>
+    <div class="trow"><span class="tag">Devanagari · 700</span><span class="demo deva w700" style="font-size:30px">अब बिज़नेस चलाओ</span></div>
+    <div class="trow"><span class="tag">Devanagari · 400</span><span class="demo deva" style="font-size:17px">बाकी ब्रांड्सलाइव संभाले — आसान, तेज़, मुफ़्त।</span></div>
+  </div>
+  <p class="lead" style="margin-top:18px;font-size:14px"><b>Rules:</b> max 2 weights per banner · headline ≤ 7 words · never set body below 14px on social · keep line length tight on mobile.</p>
+</div></section>
+
+<!-- ICONS / GRAPHIC -->
+<section id="icons"><div class="wrap">
+  <span class="eyebrow">05 · Icons &amp; Graphic Language</span>
+  <h2 class="sec">The 4-power icon set</h2>
+  <p class="lead">One simple, rounded, single-weight icon per pillar. Reuse these across every launch asset so the four features are instantly recognisable.</p>
+
+  <div class="grid powerrow" style="margin-top:30px">
+    <div class="card pwr"><div class="ic" style="background:var(--indigo)">🏠</div><h4>Home</h4><p>Centralised hub</p></div>
+    <div class="card pwr"><div class="ic" style="background:var(--magenta)">🎨</div><h4>Create with AI</h4><p>Images &amp; videos</p></div>
+    <div class="card pwr"><div class="ic" style="background:var(--st-sched)">📅</div><h4>Schedule</h4><p>1-click month</p></div>
+    <div class="card pwr"><div class="ic" style="background:var(--green)">🌐</div><h4>Business</h4><p>Website on AI search</p></div>
+  </div>
+
+  <div class="twocol">
+    <div class="card tcard"><h4>Imagery style</h4><ul class="taglist">
+      <li>📱 Real app on a real phone — show the product, build trust</li>
+      <li>🧑🏽‍💼 Authentic Indian MSME owners &amp; shops, not stock corporate</li>
+      <li>✨ AI-generated visuals shown in-context (a prompt → a result)</li>
+      <li>🪔 Festival motifs as accents, never clutter</li>
+    </ul></div>
+    <div class="card tcard"><h4>Shapes &amp; texture</h4><ul class="taglist">
+      <li>⬭ Rounded corners (12–18px) everywhere — friendly, modern</li>
+      <li>◗ Soft circular “glow” shapes for depth on colour fields</li>
+      <li>▱ Phone mockups &amp; cards float with soft shadows</li>
+      <li>━ A 6px energy-gradient bar can anchor the base of a banner</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<!-- LAYOUT -->
+<section id="layout"><div class="wrap">
+  <span class="eyebrow">06 · Layout Foundations</span>
+  <h2 class="sec">One anatomy for every banner</h2>
+  <p class="lead">Whatever the size, a Brandslive banner is built from the same six parts in the same order of importance. Learn this once and every format becomes a resize.</p>
+
+  <div class="anat">
+    <div class="anatmock">
+      <div class="a-logo"><span class="m">b</span> Brandslive</div>
+      <div>
+        <div class="a-h">Poora<br>mahina,<br>1 click</div>
+        <div class="a-s">Schedule your whole month at once</div>
+        <div class="a-cta">Update Now →</div>
+      </div>
+      <div class="a-bar"></div>
+    </div>
+    <ul class="anatkey">
+      <li><span class="num">1</span><div><b>Logo</b> <span>— top-left, always present, clear space respected.</span></div></li>
+      <li><span class="num">2</span><div><b>Headline</b> <span>— one benefit, ≤7 words, biggest element on the canvas.</span></div></li>
+      <li><span class="num">3</span><div><b>Sub-benefit</b> <span>— one supporting line in plain language (optional on small formats).</span></div></li>
+      <li><span class="num">4</span><div><b>Visual</b> <span>— phone/product or AI result; supports the headline, never fights it.</span></div></li>
+      <li><span class="num">5</span><div><b>One CTA</b> <span>— saffron button or chip, action verb, single per banner.</span></div></li>
+      <li><span class="num">6</span><div><b>Brand bar</b> <span>— energy-gradient strip / URL to lock the brand at the base.</span></div></li>
+    </ul>
+  </div>
+
+  <h4 style="margin-top:40px;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--slate)">Spacing scale (8-pt base)</h4>
+  <div class="spacescale">
+    <div class="sp"><div class="bar" style="height:8px"></div><span>8</span></div>
+    <div class="sp"><div class="bar" style="height:16px"></div><span>16</span></div>
+    <div class="sp"><div class="bar" style="height:24px"></div><span>24</span></div>
+    <div class="sp"><div class="bar" style="height:32px"></div><span>32</span></div>
+    <div class="sp"><div class="bar" style="height:48px"></div><span>48</span></div>
+    <div class="sp"><div class="bar" style="height:64px"></div><span>64</span></div>
+  </div>
+  <p class="lead" style="margin-top:18px;font-size:14px"><b>Safe zone:</b> keep all text & the CTA inside a margin = 6% of the shorter side. On stories/reels, keep clear of the top 14% and bottom 20% (UI overlap zones).</p>
+</div></section>
+
+<!-- FORMATS -->
+<section id="formats"><div class="wrap">
+  <span class="eyebrow">07 · Banner &amp; Format Library</span>
+  <h2 class="sec">Every size, spec'd</h2>
+  <p class="lead">Dashed outline in each mock = the text/CTA safe zone. Build each as an editable master so language variants swap in cleanly.</p>
+
+  <!-- SOCIAL POSTS -->
+  <div class="fmtgroup">
+    <h3><span class="gtag" style="background:var(--indigo)">A</span> Social Posts</h3>
+    <div class="gsub">Feed &amp; story content for Instagram, Facebook, WhatsApp status.</div>
+    <div class="fmtgrid">
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:4/5"><div class="safe"></div><div class="ml">b Brandslive</div><div class="mh">Ab poora<br>business</div><div class="mc">Update →</div></div>
+        <div class="name">Feed — Portrait</div><div class="dim">1080 × 1350 · 4:5</div>
+        <div class="note">Primary feed format. <b>Most reach on IG/FB.</b> Use for hero post &amp; the 4 feature posts.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1/1"><div class="safe"></div><div class="ml">b Brandslive</div><div class="mh">1 click =<br>1 mahina</div><div class="mc">Try →</div></div>
+        <div class="name">Feed — Square</div><div class="dim">1080 × 1080 · 1:1</div>
+        <div class="note">Carousels &amp; WhatsApp shares. Safe across every platform.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:9/16"><div class="safe" style="inset:9px 9px 19% 9px"></div><div class="ml">b</div><div class="mh">AI par<br>bhi dikho 🌐</div><div class="mc">Banao →</div></div>
+        <div class="name">Story / Reel</div><div class="dim">1080 × 1920 · 9:16</div>
+        <div class="note">Keep text out of top 14% &amp; bottom 20%. For teasers, reels, proof clips.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL COVERS -->
+  <div class="fmtgroup">
+    <h3><span class="gtag" style="background:var(--magenta)">B</span> Social Media Banners / Covers</h3>
+    <div class="gsub">Profile headers &amp; channel art. Keep the message in the centre-safe band.</div>
+    <div class="fmtgrid">
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1640/624"><div class="safe"></div><div class="ml">b Brandslive</div><div class="mh">You do business.<br>We do branding.</div></div>
+        <div class="name">Facebook Cover</div><div class="dim">1640 × 624</div>
+        <div class="note">Mobile crops the sides — keep key copy &amp; logo centred.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:2560/1440"><div class="safe" style="inset:24% 30%"></div><div class="ml" style="position:absolute;top:9px;left:9px">b</div><div class="mh" style="margin:auto;text-align:center">Brandslive 2.0</div></div>
+        <div class="name">YouTube Channel Art</div><div class="dim">2560 × 1440 · safe 1546 × 423</div>
+        <div class="note"><b>Everything vital inside the 1546×423 centre.</b> Edges get cropped per device.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1584/396"><div class="safe"></div><div class="ml">b Brandslive</div><div class="mh">Run your business.</div></div>
+        <div class="name">LinkedIn Banner</div><div class="dim">1584 × 396</div>
+        <div class="note">Right third often covered by profile photo on desktop — bias text left.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1500/500"><div class="safe"></div><div class="ml">b Brandslive</div><div class="mh">Content → Customers</div></div>
+        <div class="name">X / Twitter Header</div><div class="dim">1500 × 500</div>
+        <div class="note">Bottom-left overlapped by avatar &amp; bio — keep that corner clear.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEBSITE -->
+  <div class="fmtgroup">
+    <h3><span class="gtag" style="background:var(--st-sched)">C</span> Website Banners</h3>
+    <div class="gsub">Homepage hero, in-page promos and the always-on promo strip.</div>
+    <div class="fmtgrid">
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1920/720"><div class="safe"></div><div class="ml">b Brandslive</div><div class="mh">Your business, now on AI search</div><div class="mc">Get started free</div></div>
+        <div class="name">Homepage Hero — Desktop</div><div class="dim">1920 × 720 (≥1440 safe)</div>
+        <div class="note">Text left-aligned in left 50%; product visual right. Single primary CTA.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1080/1350"><div class="safe"></div><div class="ml">b</div><div class="mh">On AI<br>search 🌐</div><div class="mc">Start free</div></div>
+        <div class="name">Hero — Mobile</div><div class="dim">1080 × 1350</div>
+        <div class="note">Stacked: headline → visual → CTA. <b>Design mobile-first</b> (most traffic).</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1920/240"><div class="safe"></div><div class="mh" style="font-size:11px">🎉 New: free website on AI search</div><div class="mc" style="position:absolute;right:11px;top:50%;transform:translateY(-50%)">Try →</div></div>
+        <div class="name">Promo Strip</div><div class="dim">1920 × 120–240</div>
+        <div class="note">Full-width announcement bar. One line, one link, dismissible.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IN-APP -->
+  <div class="fmtgroup">
+    <h3><span class="gtag" style="background:var(--saffron)">D</span> In-App Banners</h3>
+    <div class="gsub">Takeovers, home cards, tooltips &amp; empty states inside the app.</div>
+    <div class="fmtgrid">
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:9/16"><div class="safe" style="inset:9px 9px 19% 9px"></div><div class="ml">b Brandslive</div><div class="mh" style="margin:auto 0">Bilkul naya<br>ho gaya 🎉</div><div class="mc">Dekho →</div></div>
+        <div class="name">Full-Screen Takeover</div><div class="dim">Design @ 1080 × 1920 safe-area</div>
+        <div class="note">Launch-day app-open. Skippable. Leads into the 4-card tour.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1080/400"><div class="safe"></div><div class="mh" style="font-size:11px">🌐 Apni free website banao</div><div class="mc">Banao →</div></div>
+        <div class="name">Home Card / Banner</div><div class="dim">~1080 × 360–400</div>
+        <div class="note">Rounded card on the home feed. One benefit + one button. Dismissible.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1080/520"><div class="safe"></div><div class="mh" style="font-size:11px">Naya: AI se<br>video banao 🎬</div></div>
+        <div class="name">Tooltip / Nudge</div><div class="dim">Compact bubble</div>
+        <div class="note">Contextual, appears once, easy dismiss. Points at the live feature.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1/1"><div class="safe"></div><div class="mh" style="margin:auto;text-align:center;font-size:11px">Khaali calendar?<br>1 click mein bharo</div></div>
+        <div class="name">Empty State</div><div class="dim">Square spot illustration</div>
+        <div class="note">Turns dead screens into activation. Warm, encouraging — never scolding.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARKETING -->
+  <div class="fmtgroup">
+    <h3><span class="gtag" style="background:var(--green)">E</span> Messaging &amp; Email</h3>
+    <div class="gsub">WhatsApp broadcasts and email headers.</div>
+    <div class="fmtgrid">
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1/1"><div class="safe"></div><div class="ml">b Brandslive</div><div class="mh">Naya update<br>aa gaya</div><div class="mc">Try free</div></div>
+        <div class="name">WhatsApp Broadcast</div><div class="dim">1080 × 1080</div>
+        <div class="note">Square loads fast on data-light phones. Big text, one link below image.</div>
+      </div>
+      <div class="card fmt">
+        <div class="mock" style="aspect-ratio:1200/400"><div class="safe"></div><div class="ml">b Brandslive</div><div class="mh">Pehle content.<br>Ab business.</div></div>
+        <div class="name">Email Header</div><div class="dim">1200 × 400</div>
+        <div class="note">Headline + logo only; body copy lives as live text below for deliverability.</div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- RULES -->
+<section id="rules"><div class="wrap">
+  <span class="eyebrow">08 · Rules</span>
+  <h2 class="sec">Do &amp; Don't</h2>
+  <div class="ddgrid">
+    <div class="ddcard do">
+      <h4>✓ Always</h4>
+      <li>✅ <span>Lead with <b>one benefit</b>, in plain Hinglish</span></li>
+      <li>✅ <span>Keep <b>one CTA</b> in saffron per banner</span></li>
+      <li>✅ <span>Show the <b>real app</b> on a phone</span></li>
+      <li>✅ <span>Respect the <b>safe zone</b> &amp; 8-pt spacing</span></li>
+      <li>✅ <span>Build editable masters for <b>language swaps</b></span></li>
+      <li>✅ <span>Use the <b>4-power icons</b> consistently</span></li>
+    </div>
+    <div class="ddcard dont">
+      <h4>✕ Never</h4>
+      <li>🚫 <span>Cram <b>multiple offers/CTAs</b> on one banner</span></li>
+      <li>🚫 <span>Use <b>more than 2 type weights</b> or tiny body text</span></li>
+      <li>🚫 <span>Recolour or distort the <b>logo</b></span></li>
+      <li>🚫 <span>Fill every pixel — <b>chaos kills trust</b></span></li>
+      <li>🚫 <span>Use generic <b>corporate stock</b> photography</span></li>
+      <li>🚫 <span>Put text in story/reel <b>UI overlap zones</b></span></li>
+    </div>
+  </div>
+
+  <h2 class="sec" style="margin-top:60px;font-size:26px">Quick spec reference</h2>
+  <table>
+    <tr><th>Format</th><th>Size (px)</th><th>Use</th></tr>
+    <tr><td>Feed — Portrait</td><td>1080 × 1350</td><td>Hero &amp; feature posts (max reach)</td></tr>
+    <tr><td>Feed — Square</td><td>1080 × 1080</td><td>Carousels, WhatsApp shares</td></tr>
+    <tr><td>Story / Reel</td><td>1080 × 1920</td><td>Teasers, reels, proof clips</td></tr>
+    <tr><td>Facebook Cover</td><td>1640 × 624</td><td>Page header</td></tr>
+    <tr><td>YouTube Art</td><td>2560 × 1440 (safe 1546 × 423)</td><td>Channel banner</td></tr>
+    <tr><td>LinkedIn Banner</td><td>1584 × 396</td><td>Company/profile header</td></tr>
+    <tr><td>X Header</td><td>1500 × 500</td><td>Profile header</td></tr>
+    <tr><td>Website Hero — Desktop</td><td>1920 × 720</td><td>Homepage</td></tr>
+    <tr><td>Website Hero — Mobile</td><td>1080 × 1350</td><td>Homepage (mobile-first)</td></tr>
+    <tr><td>Promo Strip</td><td>1920 × 120–240</td><td>Announcement bar</td></tr>
+    <tr><td>In-App Takeover</td><td>1080 × 1920 safe-area</td><td>Launch-day app open</td></tr>
+    <tr><td>In-App Home Card</td><td>1080 × 360–400</td><td>Activation banner</td></tr>
+    <tr><td>WhatsApp Broadcast</td><td>1080 × 1080</td><td>Customer messaging</td></tr>
+    <tr><td>Email Header</td><td>1200 × 400</td><td>Email campaigns</td></tr>
+  </table>
+</div></section>
+
+<footer>
+  <b>Brandslive Visual System v1.0</b> — proposed palette &amp; structure. Lock final hex, fonts &amp; logo lockup into the master brand kit before production.
+</footer>
+
+</body>
+</html>
