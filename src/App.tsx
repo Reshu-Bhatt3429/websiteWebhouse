@@ -226,7 +226,7 @@ function Hero() {
             <span>Creative Designer & Video Editor</span>
           </div>
           <h1 className="hero__title">
-            I design art
+            I design visuals
             <br />
             <span className="hero__italic-text">that make people</span>
             <br />
