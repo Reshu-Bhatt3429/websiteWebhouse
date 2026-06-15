@@ -14,6 +14,7 @@ import {
   Monitor,
   Palette,
   Phone,
+  Plus,
   Send,
   Sparkles,
   Star,
@@ -123,16 +124,18 @@ const stats = [
 // Adobe apps use their official colored letter tiles; AI tools load their real
 // company logo from the tool's own domain.
 type Tool =
-  | { name: string; mono: string; color: string; bg: string }
-  | { name: string; domain: string };
+  | { name: string; logo: string }
+  | { name: string; domain: string }
+  | { name: string; more: true };
 
 const designTools: Tool[] = [
-  { name: "After Effects", mono: "Ae", color: "#d3a4ff", bg: "#110733" },
-  { name: "Premiere Pro", mono: "Pr", color: "#ee83ff", bg: "#1d0734" },
-  { name: "Photoshop", mono: "Ps", color: "#39a9ff", bg: "#001d33" },
-  { name: "Illustrator", mono: "Ai", color: "#ff9a00", bg: "#2c0c00" },
-  { name: "Lightroom", mono: "Lr", color: "#62cbff", bg: "#001d33" },
-  { name: "InDesign", mono: "Id", color: "#ff5d8a", bg: "#34081d" },
+  { name: "After Effects", logo: "/logos/aftereffects.svg" },
+  { name: "Premiere Pro", logo: "/logos/premierepro.svg" },
+  { name: "Photoshop", logo: "/logos/photoshop.svg" },
+  { name: "Illustrator", logo: "/logos/illustrator.svg" },
+  { name: "Lightroom", logo: "/logos/lightroom.svg" },
+  { name: "InDesign", logo: "/logos/indesign.svg" },
+  { name: "More", more: true },
 ];
 
 const aiTools: Tool[] = [
@@ -140,13 +143,18 @@ const aiTools: Tool[] = [
   { name: "Claude", domain: "claude.ai" },
   { name: "Midjourney", domain: "midjourney.com" },
   { name: "Runway", domain: "runwayml.com" },
+  { name: "Flow", domain: "flow.google" },
+  { name: "Kling", domain: "klingai.com" },
+  { name: "Ideogram", domain: "ideogram.ai" },
   { name: "Gamma", domain: "gamma.app" },
   { name: "Perplexity", domain: "perplexity.ai" },
   { name: "Nano Banana", domain: "gemini.google.com" },
   { name: "n8n", domain: "n8n.io" },
-  { name: "Kling", domain: "klingai.com" },
+  { name: "ElevenLabs", domain: "elevenlabs.io" },
+  { name: "Captions.ai", domain: "captions.ai" },
   { name: "Lovable", domain: "lovable.dev" },
   { name: "Retell AI", domain: "retellai.com" },
+  { name: "More", more: true },
 ];
 
 type Social = { label: string; href: string; icon: LucideIcon; copyValue?: string };
@@ -490,10 +498,17 @@ function TestimonialsSection() {
 
 function ToolLogo({ tool }: { tool: Tool }) {
   const [errored, setErrored] = useState(false);
-  if ("mono" in tool) {
+  if ("more" in tool) {
     return (
-      <span className="tool__icon tool__icon--mono" style={{ background: tool.bg, color: tool.color }}>
-        {tool.mono}
+      <span className="tool__icon tool__icon--more" aria-hidden="true">
+        <Plus size={22} />
+      </span>
+    );
+  }
+  if ("logo" in tool) {
+    return (
+      <span className="tool__icon tool__icon--app">
+        <img src={tool.logo} alt={`${tool.name} logo`} loading="lazy" />
       </span>
     );
   }

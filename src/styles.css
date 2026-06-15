@@ -163,7 +163,10 @@ button{cursor:pointer}
 .tool:hover .tool__icon{transform:translateY(-5px) scale(1.05);box-shadow:0 16px 30px -12px rgba(0,0,0,.8)}
 .tool__icon--logo{background:#fff;border:1px solid rgba(255,255,255,.12)}
 .tool__icon--logo img{width:62%;height:62%;object-fit:contain;display:block}
-.tool__icon--mono{font-weight:800;font-size:1.1rem;letter-spacing:-.02em;box-shadow:0 8px 20px -10px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.06)}
+.tool__icon--app{background:#0b0b16}
+.tool__icon--app img{width:100%;height:100%;object-fit:cover;display:block}
+.tool__icon--more{background:transparent;border:1.5px dashed var(--glass-border);color:var(--muted);box-shadow:none}
+.tool:hover .tool__icon--more{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 55%,transparent);box-shadow:none}
 .tool__icon--fallback{background:var(--surface-2);color:var(--ink);font-weight:800;font-size:1.3rem}
 .tool__name{font-size:.74rem;font-weight:500;color:var(--muted);line-height:1.25;max-width:84px}
 @media (prefers-reduced-motion:reduce){.tool{opacity:1;transform:none;transition:none;transition-delay:0ms!important}}
