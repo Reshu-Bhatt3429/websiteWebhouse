@@ -124,7 +124,7 @@ const tools = ["Photoshop", "Illustrator", "Figma", "Premiere Pro", "After Effec
 const socials = [
   { label: "Phone", href: "tel:+917351530588", icon: Phone },
   { label: "WhatsApp", href: "https://wa.me/917351530588", icon: MessageCircle },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/adwait-dabral-76b0a5304", icon: Linkedin },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/adwait-dabral-76b0a5304/", icon: Linkedin },
   { label: "Instagram", href: "https://www.instagram.com/yourhandle", icon: Instagram },
   { label: "GitHub", href: "https://github.com/yourhandle", icon: Github },
   { label: "Email", href: "mailto:hello@yourname.com", icon: Mail },
