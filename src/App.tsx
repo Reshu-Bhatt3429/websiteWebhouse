@@ -1,12 +1,10 @@
-import { CSSProperties, FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  Bot,
   BriefcaseBusiness,
   CheckCircle2,
   Clapperboard,
   ExternalLink,
-  Flame,
   Github,
   Instagram,
   Layers,
@@ -16,7 +14,6 @@ import {
   Monitor,
   Palette,
   Phone,
-  Sailboat,
   Send,
   Sparkles,
   Star,
@@ -123,28 +120,33 @@ const stats = [
   { value: "24hr", label: "Response time", icon: Zap },
 ];
 
-type Tool = {
-  name: string;
-  mono?: string;
-  icon?: LucideIcon;
-  color: string;
-  bg: string;
-};
+// Adobe apps use their official colored letter tiles; AI tools load their real
+// company logo from the tool's own domain.
+type Tool =
+  | { name: string; mono: string; color: string; bg: string }
+  | { name: string; domain: string };
 
-const tools: Tool[] = [
-  // Motion & video first
-  { name: "After Effects", mono: "Ae", color: "#ca9fff", bg: "#10072e" },
-  { name: "Premiere Pro", mono: "Pr", color: "#ea7bff", bg: "#1c0730" },
-  // Design suite
-  { name: "Photoshop", mono: "Ps", color: "#3aa9ff", bg: "#001b30" },
+const designTools: Tool[] = [
+  { name: "After Effects", mono: "Ae", color: "#d3a4ff", bg: "#110733" },
+  { name: "Premiere Pro", mono: "Pr", color: "#ee83ff", bg: "#1d0734" },
+  { name: "Photoshop", mono: "Ps", color: "#39a9ff", bg: "#001d33" },
   { name: "Illustrator", mono: "Ai", color: "#ff9a00", bg: "#2c0c00" },
-  { name: "Lightroom", mono: "Lr", color: "#5bc8ff", bg: "#001b30" },
-  { name: "InDesign", mono: "Id", color: "#ff5d8a", bg: "#33081c" },
-  // AI toolkit
-  { name: "Midjourney", icon: Sailboat, color: "#c4b5fd", bg: "#15121f" },
-  { name: "ChatGPT", icon: Bot, color: "#5fe3bd", bg: "#091d18" },
-  { name: "Runway", icon: Clapperboard, color: "#9af3cf", bg: "#0a1a16" },
-  { name: "Adobe Firefly", icon: Flame, color: "#ffb070", bg: "#231005" },
+  { name: "Lightroom", mono: "Lr", color: "#62cbff", bg: "#001d33" },
+  { name: "InDesign", mono: "Id", color: "#ff5d8a", bg: "#34081d" },
+];
+
+const aiTools: Tool[] = [
+  { name: "ChatGPT", domain: "openai.com" },
+  { name: "Claude", domain: "claude.ai" },
+  { name: "Midjourney", domain: "midjourney.com" },
+  { name: "Runway", domain: "runwayml.com" },
+  { name: "Gamma", domain: "gamma.app" },
+  { name: "Perplexity", domain: "perplexity.ai" },
+  { name: "Nano Banana", domain: "gemini.google.com" },
+  { name: "n8n", domain: "n8n.io" },
+  { name: "Kling", domain: "klingai.com" },
+  { name: "Lovable", domain: "lovable.dev" },
+  { name: "Retell AI", domain: "retellai.com" },
 ];
 
 type Social = { label: string; href: string; icon: LucideIcon; copyValue?: string };
@@ -486,6 +488,39 @@ function TestimonialsSection() {
 
 /* ── ABOUT SECTION ──────────────────────────────────────── */
 
+function ToolLogo({ tool }: { tool: Tool }) {
+  const [errored, setErrored] = useState(false);
+  if ("mono" in tool) {
+    return (
+      <span className="tool__icon tool__icon--mono" style={{ background: tool.bg, color: tool.color }}>
+        {tool.mono}
+      </span>
+    );
+  }
+  if (errored) {
+    return <span className="tool__icon tool__icon--fallback">{tool.name.charAt(0)}</span>;
+  }
+  return (
+    <span className="tool__icon tool__icon--logo">
+      <img
+        src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`}
+        alt={`${tool.name} logo`}
+        loading="lazy"
+        onError={() => setErrored(true)}
+      />
+    </span>
+  );
+}
+
+function ToolTile({ tool, index }: { tool: Tool; index: number }) {
+  return (
+    <div className="tool" style={{ transitionDelay: `${index * 40}ms` }}>
+      <ToolLogo tool={tool} />
+      <span className="tool__name">{tool.name}</span>
+    </div>
+  );
+}
+
 function AboutSection() {
   const toolsRef = useRef<HTMLDivElement>(null);
   const [toolsVisible, setToolsVisible] = useState(false);
@@ -526,32 +561,19 @@ function AboutSection() {
             Every project I take on follows one principle: <strong>clarity over complexity</strong>.
             Clean design, sharp messaging, and intentional motion — that's the formula.
           </p>
-          <div className="about__tools">
+          <div ref={toolsRef} className={`about__tools ${toolsVisible ? "is-visible" : ""}`}>
             <span className="about__tools-label">Tools I work with</span>
-            <div
-              ref={toolsRef}
-              className={`about__tool-list ${toolsVisible ? "is-visible" : ""}`}
-            >
-              {tools.map((tool, i) => {
-                const Icon = tool.icon;
-                return (
-                  <span
-                    className="about__tool"
-                    key={tool.name}
-                    style={
-                      {
-                        "--tool-color": tool.color,
-                        transitionDelay: `${i * 55}ms`,
-                      } as CSSProperties
-                    }
-                  >
-                    <span className="about__tool-badge" style={{ background: tool.bg, color: tool.color }}>
-                      {tool.mono ? tool.mono : Icon ? <Icon size={16} /> : null}
-                    </span>
-                    <span className="about__tool-name">{tool.name}</span>
-                  </span>
-                );
-              })}
+            <span className="about__tools-group">Design &amp; Video</span>
+            <div className="tool-grid">
+              {designTools.map((tool, i) => (
+                <ToolTile key={tool.name} tool={tool} index={i} />
+              ))}
+            </div>
+            <span className="about__tools-group">AI Toolkit</span>
+            <div className="tool-grid">
+              {aiTools.map((tool, i) => (
+                <ToolTile key={tool.name} tool={tool} index={designTools.length + i} />
+              ))}
             </div>
           </div>
         </div>
