@@ -13,6 +13,7 @@ import {
   MessageCircle,
   Monitor,
   Palette,
+  Phone,
   Send,
   Sparkles,
   Star,
@@ -121,7 +122,8 @@ const stats = [
 const tools = ["Photoshop", "Illustrator", "Figma", "Premiere Pro", "After Effects", "CapCut"];
 
 const socials = [
-  { label: "WhatsApp", href: "https://wa.me/910000000000", icon: MessageCircle },
+  { label: "Phone", href: "tel:+917351530588", icon: Phone },
+  { label: "WhatsApp", href: "https://wa.me/917351530588", icon: MessageCircle },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/adwait-dabral-76b0a5304", icon: Linkedin },
   { label: "Instagram", href: "https://www.instagram.com/yourhandle", icon: Instagram },
   { label: "GitHub", href: "https://github.com/yourhandle", icon: Github },
