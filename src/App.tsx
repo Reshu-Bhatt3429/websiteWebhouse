@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -21,6 +21,7 @@ import {
   Wand2,
   Zap,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 /* ── DATA ───────────────────────────────────────────────── */
 
@@ -121,8 +122,10 @@ const stats = [
 
 const tools = ["Photoshop", "Illustrator", "Figma", "Premiere Pro", "After Effects", "CapCut"];
 
-const socials = [
-  { label: "Phone", href: "tel:+917351530588", icon: Phone },
+type Social = { label: string; href: string; icon: LucideIcon; copyValue?: string };
+
+const socials: Social[] = [
+  { label: "+91 73515 30588", href: "tel:+917351530588", icon: Phone, copyValue: "+917351530588" },
   { label: "WhatsApp", href: "https://wa.me/917351530588", icon: MessageCircle },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/adwait-dabral-76b0a5304/", icon: Linkedin },
   { label: "Instagram", href: "https://www.instagram.com/yourhandle", icon: Instagram },
@@ -512,7 +515,24 @@ function AboutSection() {
 
 function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
+  const [copied, setCopied] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const copyTimer = useRef<number | null>(null);
+
+  function handlePhoneClick(e: MouseEvent<HTMLAnchorElement>, value: string) {
+    // On touch devices, let the tel: link open the dialer.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    // On desktop there's no dialer, so copy the number instead.
+    e.preventDefault();
+    navigator.clipboard
+      ?.writeText(value)
+      .then(() => {
+        setCopied(true);
+        if (copyTimer.current) window.clearTimeout(copyTimer.current);
+        copyTimer.current = window.setTimeout(() => setCopied(false), 1500);
+      })
+      .catch(() => {});
+  }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -550,6 +570,21 @@ function ContactSection() {
           <div className="contact__channels">
             {socials.map((s) => {
               const Icon = s.icon;
+              if (s.copyValue) {
+                const copyValue = s.copyValue;
+                return (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    className="contact__channel"
+                    title="Tap to call · click to copy"
+                    onClick={(e) => handlePhoneClick(e, copyValue)}
+                  >
+                    <Icon size={20} />
+                    <span>{copied ? "Copied!" : s.label}</span>
+                  </a>
+                );
+              }
               return (
                 <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className="contact__channel">
                   <Icon size={20} />
