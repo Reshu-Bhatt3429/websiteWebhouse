@@ -1,10 +1,12 @@
-import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { CSSProperties, FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
+  Bot,
   BriefcaseBusiness,
   CheckCircle2,
   Clapperboard,
   ExternalLink,
+  Flame,
   Github,
   Instagram,
   Layers,
@@ -14,6 +16,7 @@ import {
   Monitor,
   Palette,
   Phone,
+  Sailboat,
   Send,
   Sparkles,
   Star,
@@ -120,7 +123,29 @@ const stats = [
   { value: "24hr", label: "Response time", icon: Zap },
 ];
 
-const tools = ["Photoshop", "Illustrator", "Figma", "Premiere Pro", "After Effects", "CapCut"];
+type Tool = {
+  name: string;
+  mono?: string;
+  icon?: LucideIcon;
+  color: string;
+  bg: string;
+};
+
+const tools: Tool[] = [
+  // Motion & video first
+  { name: "After Effects", mono: "Ae", color: "#ca9fff", bg: "#10072e" },
+  { name: "Premiere Pro", mono: "Pr", color: "#ea7bff", bg: "#1c0730" },
+  // Design suite
+  { name: "Photoshop", mono: "Ps", color: "#3aa9ff", bg: "#001b30" },
+  { name: "Illustrator", mono: "Ai", color: "#ff9a00", bg: "#2c0c00" },
+  { name: "Lightroom", mono: "Lr", color: "#5bc8ff", bg: "#001b30" },
+  { name: "InDesign", mono: "Id", color: "#ff5d8a", bg: "#33081c" },
+  // AI toolkit
+  { name: "Midjourney", icon: Sailboat, color: "#c4b5fd", bg: "#15121f" },
+  { name: "ChatGPT", icon: Bot, color: "#5fe3bd", bg: "#091d18" },
+  { name: "Runway", icon: Clapperboard, color: "#9af3cf", bg: "#0a1a16" },
+  { name: "Adobe Firefly", icon: Flame, color: "#ffb070", bg: "#231005" },
+];
 
 type Social = { label: string; href: string; icon: LucideIcon; copyValue?: string };
 
@@ -462,6 +487,25 @@ function TestimonialsSection() {
 /* ── ABOUT SECTION ──────────────────────────────────────── */
 
 function AboutSection() {
+  const toolsRef = useRef<HTMLDivElement>(null);
+  const [toolsVisible, setToolsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = toolsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setToolsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="about" id="about">
       <div className="about__wrap">
@@ -484,10 +528,30 @@ function AboutSection() {
           </p>
           <div className="about__tools">
             <span className="about__tools-label">Tools I work with</span>
-            <div className="about__tool-list">
-              {tools.map((tool) => (
-                <span className="about__tool" key={tool}>{tool}</span>
-              ))}
+            <div
+              ref={toolsRef}
+              className={`about__tool-list ${toolsVisible ? "is-visible" : ""}`}
+            >
+              {tools.map((tool, i) => {
+                const Icon = tool.icon;
+                return (
+                  <span
+                    className="about__tool"
+                    key={tool.name}
+                    style={
+                      {
+                        "--tool-color": tool.color,
+                        transitionDelay: `${i * 55}ms`,
+                      } as CSSProperties
+                    }
+                  >
+                    <span className="about__tool-badge" style={{ background: tool.bg, color: tool.color }}>
+                      {tool.mono ? tool.mono : Icon ? <Icon size={16} /> : null}
+                    </span>
+                    <span className="about__tool-name">{tool.name}</span>
+                  </span>
+                );
+              })}
             </div>
           </div>
         </div>
