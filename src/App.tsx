@@ -469,7 +469,7 @@ function AboutSection() {
             <h2 className="section-header__title">The creative behind the pixels</h2>
           </div>
           <p className="about__text">
-            I'm a graphic designer and video editor specializing in social-first campaigns. I help
+            I'm a graphic designer & video editor specializing in social-first campaigns. I help
             brands, founders, and product teams turn rough ideas into polished posts, ads, reels,
             explainers, and complete campaign systems.
           </p>
